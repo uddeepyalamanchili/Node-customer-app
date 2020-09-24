@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <h1><%= title %></h1>
+    <button onclick="location = '/home'" >Home</button>  &nbsp;| &nbsp;
+    <button onclick="location = '/customer'" >Customer</button>  &nbsp;| &nbsp;
+    <button onclick="location = '/student'" >Student</button>  &nbsp;| &nbsp;
+    <button onclick="location = '/about'" >About</button>  &nbsp;| &nbsp;
+    <button onclick="location = '/login'" >logout</button>
+    <hr/>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script type="text/javascript">
+      doDelete = function(id) {
+        console.log("Delete : "+id);
+        
+           $.ajax({url: "/api/student",
+            method:'Delete', 
+            data:{id:id},
+            success: function(response){
+              if(response.result =="success"){
+                location = "/student";
+              }else{
+                alert(response.msg);
+              }
+            }});
+      
+        /*else if(email == password) {
+          //location = "/customer";
+        }*/
+      }
+      doEdit = function(id){
+        console.log('edit'+id);
+        location = '/student/edit/'+id;
+      }
+      doSearch = function(){
+        var search={};
+        search.text = $("#searchtext").val();
+        search.field = $("#searchfield").val();
+        //console.log('edit'+id);
+        if(search.text=='')
+        { 
+          location = '/student';
+        }else
+        {
+          location = '/student/search/'+search.text+'/'+search.field;
+        }
+        
+      }
+    </script>
+
+    <h4><%= students.length %> students<h4>
+    <button onclick="location='/student/add'">Add student</button>&nbsp;|&nbsp;
+    <input type = "text" id = "searchtext" placeholder="enter text to search"> &nbsp; &nbsp;
+    <select id= "searchfield">
+        <option value = "Name" selected>Name</option>
+        <option value = "parentname" >Parent Name</option>
+        <option value = "class" >Class</option>
+        <option value = "subject" >subject</option>
+    </select> &nbsp; &nbsp;
+    <button onclick="doSearch();">Search</button>&nbsp;|&nbsp;
+    <br><hr><br>
+       <div class="page-data" style="font-size: 14px; font-weight: normal;">
+         <div class="data-table">
+            <table border="1" cellpadding="7" cellspacing="7">
+                <tr>
+                    <th width="20px">No</th>
+                    <th width="250px">Name</th>
+                    <th width="220px">Parentname</th>
+                    <th width="100px">Class</th>
+                    <th width="300px">Subject</th>
+                    <th width="300px">Teacher</th>
+                    <th width="300px">City</th>
+                    <th width="300px">Country</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                    
+                </tr>
+        <tbody>
+    <% if(students.length){for(var i = 0;i < students.length;i++) { %>       
+                <tr>
+                    <td><%=students[i]._id%></td>
+                    <td><%=students[i].Name%></td>
+                    <td><%=students[i].parentname%></td>
+                    <td><%=students[i].class%></td>
+                    <td><%=students[i].subject%></td>
+                    <td><%=students[i].teacher%></td>
+                    <td><%=students[i].city%></td>
+                    <td><%=students[i].country%></td>
+                    <td><button onclick="doEdit('<%=students[i]._id%>');" >Edit</button></td>
+                    <td><button onclick="doDelete('<%=students[i]._id %>');">Delete</button></td>
+
+                </tr>
+            <% }
+             }else{ %>
+                 <tr>
+                    <td colspan="10" style="text-align:center;font-weight: bolder;">No student found</td>
+                 </tr>
+            <% } %>
+          
+        </tbody>
+      </table>
+  </body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+     
+  <body>
+    <script type="text/javascript">
+      updateStudent = () => {
+        var record ={};
+        record.id =$('#id').val();
+        record.class = $('#class').val();
+        record.Name = $('#name').val();
+        record.parentname = $('#parentname').val();
+        record.subject = $('#subject').val();
+        record.teacher = $('#teacher').val();
+        record.city = $('#city').val();
+        record.country = $('#country').val();
+        //record.address = $('#address').val();
+        
+        if(record.name ==""){
+          alert('name cannot be blank.');
+        } else{
+           $.ajax({url: "/api/student",
+            method:'PUT', 
+            data:record,
+            success: function(response){
+              if(response.result =="success"){
+                location = "/student";
+              }else{
+                alert(response.msg);
+              }
+            }});
+        } 
+        /*else if(email == password) {
+          //location = "/student";
+        }*/
+      }
+    </script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>>
+    <h1><%= title %></h1>
+    <input id = "id" type="text" name="" placeholder="id" value = "<%= student._id %>" readonly><br/><br/>
+    <input id = "name" type="text" name="" placeholder="Enter name" value = "<%=student.Name%>" ><br/><br/>
+    <input id = "parentname" type="text" name="" placeholder="Enter parentname" value = "<%=student.parentname%>"><br/><br/>
+    <input id = "class" type="text" name="" placeholder="Enter class"value = "<%=student.class%>"><br/><br/>
+    <input id = "subject" type="text" name="" placeholder="Enter subject"value = "<%=student.subject%>"><br/><br/>
+    <input id = "teacher" type="text" name="" placeholder="Enter teacher"value = "<%=student.teacher%>"><br/><br/>
+    <input id = "city" type="text" name="" placeholder="Enter city"value = "<%=student.city%>"><br/><br/>
+    <input id = "country" type="text" name="" placeholder="Enter country"value = "<%=student.country%>"><br/><br/>
+    <input  onclick="updateStudent();" type="button" name="" value="Submit"><br/>
+  </body>
+</html>

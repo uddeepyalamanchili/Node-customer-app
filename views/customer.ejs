@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <h1><%= title %></h1>
+    <button onclick="location = '/home'" >Home</button>  &nbsp;| &nbsp;
+    <button onclick="location = '/customer'" >Customer</button>  &nbsp;| &nbsp;
+    <button onclick="location = '/student'" >Student</button>  &nbsp;| &nbsp;
+    <button onclick="location = '/about'" >About</button>  &nbsp;| &nbsp;
+    <button onclick="location = '/login'" >logout</button>
+    <hr/>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script type="text/javascript">
+      doDelete = function(id) {
+        console.log("Delete : "+id);
+        
+           $.ajax({url: "/api/customer",
+            method:'Delete', 
+            data:{id:id},
+            success: function(response){
+              if(response.result =="success"){
+                location = "/customer";
+              }else{
+                alert(response.msg);
+              }
+            }});
+           
+      
+        /*else if(email == password) {
+          //location = "/customer";
+        }*/
+      }
+      doEdit = function(id){
+        console.log('doEdit'+id);
+        location = '/customer/edit/'+id;
+      }
+      doSearch = function(){
+        var search= {};
+        search.field = $('#searchfield').val();
+        search.text = $('#searchtext').val();
+        console.log('search text'+search.text);
+        console.log('search field'+search.field);
+        if(search.text=='')
+        { 
+          location = '/customer';
+        }else
+        {
+          location = '/customer/search/'+search.text+'/'+search.field;
+        }
+      }
+    </script>
+
+    <h4><%= customers.length %> Customers<h4>
+      <button onclick="location='/customer/add'">Add customer</button> &nbsp;| &nbsp;
+      <input id = "searchtext" type="text" name="" placeholder="Enter text to search">&nbsp; &nbsp;
+      <select id = "searchfield">
+            <option value = "name">Name</option>
+            <option value = "email">E-mail</option>
+            <option value = "address">Address</option>
+         </select>&nbsp;
+         <button onclick="doSearch();">Search</button> &nbsp;| &nbsp;
+         <br/><br/>
+
+       <div class="page-data" style="font-size: 14px; font-weight: normal;">
+         <div class="data-table">
+            <table border="1" cellpadding="7" cellspacing="7">
+                <tr>
+                    <th width="20px">No</th>
+                    <th width="250px">Name</th>
+                    <th width="220px">Email</th>
+                    <th width="100px">Phone</th>
+                    <th width="300px">Address</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr>
+        <tbody>
+    <% if(customers.length){for(var i = 0;i < customers.length;i++) { %>       
+                <tr>
+                    <td><%=customers[i]._id%></td>
+                    <td><%=customers[i].name%></td>
+                    <td><%=customers[i].email%></td>
+                    <td><%=customers[i].phone%></td>
+                    <td><%=customers[i].address%></td>
+                    <td><button onclick="doEdit('<%=customers[i]._id%>');" >Edit</button></td>
+                    <td><button onclick="doDelete('<%=customers[i]._id %>');">Delete</button></td>
+
+                </tr>
+            <% }
+             }else{ %>
+                 <tr>
+                    <td colspan="7" style="text-align: center;font-weight: bolder">No customer found</td>
+                 </tr>
+            <% } %>
+          
+        </tbody>
+      </table>
+  </body>
+</html>

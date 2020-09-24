@@ -1,6 +1,6 @@
 var model ={};
 
-var customers = [{id:1,Name:'uddip',email:'uddip@gmail.com',phn:'123456789',address:'bangalore'},
+var customers = [{id:1,Name:'uddip',email:'uddip@gmail.com',phn:'123456789',address:'delhi'},
 {id:2,Name:'name2',email:'name2@gmail.com',phn:'1234567890',address:'goa'},
 {id:3,Name:'name3',email:'name3@gmail.com',phn:'0987654321',address:'pune'},
 {id:4,Name:'name4',email:'name4@gmail.com',phn:'5432167890',address:'hyderabad'}

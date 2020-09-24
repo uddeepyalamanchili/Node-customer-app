@@ -11,7 +11,8 @@ router.post('/authenticate', function(req, res, next) {
   if(req.body.username != undefined && req.body.username!="" 
   	&& req.body.username == req.body.password){
       var payload = {
-        admin: req.body.username	
+        admin: req.body.username
+
       }
       //generating token
       var token = jwt.sign(payload,"trainingIsGood", {

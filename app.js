@@ -70,6 +70,9 @@ if (token) {
   });
 }
 });
+app.get('/api/me', function (req, res) {
+  res.send(req.decoded);
+});
 app.use('/api/customer', apiCustomer);
 app.use('/api/student', apistudent);
 

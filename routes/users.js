@@ -1,34 +1,30 @@
+var jwt    = require('jsonwebtoken'); // used to create, sign, and verify tokens
 var express = require('express');
 var router = express.Router();
 
-/* GET users listing. */
 router.get('/', function(req, res, next) {
   res.send('respond with a resource');
 });
 
-// verify this with Postman
-
-router.post('/login', function(req, res, next) {
-	if(req.body.email!="" && req.body.email == req.body.password ){
-		res.send ({result:'success', msg:'login is successful.'});
-	}else{
-		res.send ({result:'fail', msg:'login failed.'});
-	}
-  res.send('respond with a resource ie. users..');
+router.post('/authenticate', function(req, res, next) {
+  console.log(JSON.stringify(req.body));
+  if(req.body.username != undefined && req.body.username!="" 
+  	&& req.body.username == req.body.password){
+      var payload = {
+        admin: req.body.username	
+      }
+      //generating token
+      var token = jwt.sign(payload,"trainingIsGood", {
+        expiresIn: 86400 // expires in 24 hours
+      });
+      res.json({
+        success: true,
+        message: 'Enjoy your token!',
+        token: token
+      });
+  }else{
+  	res.send({result:'fail', msg:"Incorrect uername or password." });
+  }
 });
-
-//using the secure login 
-/*
-router.post('/login', function(req, res, next) {
-	if(req.body.email!="" && req.body.email == req.body.password ){
-		req.session.user = req.body.email;
-		console.log("req.session.user:"+req.session.user);
-		res.send ({result:'success', msg:'login is successful.'});
-	}else{
-		res.send ({result:'fail', msg:'login failed.'});
-	}
-});
-*/
-
 
 module.exports = router;
